@@ -1,0 +1,32 @@
+html {
+    --color-rosewater: #e8b4b8;  
+    --color-dusty-rose: #EED6D3; 
+    --color-coffee-pot:#A49393; 
+    --color-coffee-pot2: #67595E; 
+  }
+
+  .color-rosewater{
+    color: var(--color-rosewater) !important;
+  }
+  .color-dusty-rose{
+    color: var(--color-dusty-rose) !important;
+  }
+  .color-coffee-pot{
+    color: var(--color-coffee-pot) !important;
+  }
+  .color-coffee-pot2{
+    color: var(--color-coffee-pot2) !important;
+  }
+
+  .bgcolor-rosewater{
+    background-color: var(--color-rosewater) !important;
+  }
+  .bgcolor-dusty-rose{
+    background-color: var(--color-dusty-rose) !important;
+  }
+  .bgcolor-coffee-pot{
+    background-color: var(--color-coffee-pot) !important;
+  }
+  .bgcolor-coffee-pot2{
+    background-color: var(--color-coffee-pot2) !important;
+  }
