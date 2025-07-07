@@ -16,6 +16,7 @@ import {
   Stack,
   FormControlLabel,
   Checkbox,
+  useTheme,
 } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
@@ -24,8 +25,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ImageCompressor from "image-compressor.js";
+import courseOptions from "../utils/courseOptions";
 
 export default function RegisterStudent() {
+  const theme = useTheme();
   const [formData, setFormData] = useState({
     enrollmentNumber: "",
     studentName: "",
@@ -201,6 +204,7 @@ export default function RegisterStudent() {
                 margin="normal"
                 required
               />
+              
               <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
                 Gender
               </Typography>
@@ -209,12 +213,31 @@ export default function RegisterStudent() {
                 exclusive
                 onChange={handleGenderChange}
                 fullWidth
-                color="primary"
               >
-                <ToggleButton value="male">Male</ToggleButton>
-                <ToggleButton value="female">Female</ToggleButton>
-                <ToggleButton value="other">Other</ToggleButton>
+                {["male", "female", "other"].map((gender) => (
+                  <ToggleButton
+                    key={gender}
+                    value={gender}
+                    sx={{
+                      textTransform: "capitalize",
+                      fontWeight: "bold",
+                      borderRadius: 1,
+                      "&.Mui-selected": {
+                        backgroundColor: theme.palette.secondary.main, // your misty blue/gray
+                        color: theme.palette.text.primary,
+                        "&:hover": {
+                          backgroundColor:
+                            theme.palette.secondary.dark ||
+                            theme.palette.secondary.main,
+                        },
+                      },
+                    }}
+                  >
+                    {gender}
+                  </ToggleButton>
+                ))}
               </ToggleButtonGroup>
+
               <TextField
                 fullWidth
                 label="Father Name"
@@ -233,9 +256,8 @@ export default function RegisterStudent() {
                   label="Program Name"
                   onChange={handleChange}
                 >
-                  <MenuItem value="UG">UG</MenuItem>
-                  <MenuItem value="PG">PG</MenuItem>
                   <MenuItem value="Diploma">Diploma</MenuItem>
+                  <MenuItem value="Courses">Courses</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth margin="normal" required>
@@ -246,36 +268,42 @@ export default function RegisterStudent() {
                   value={formData.courseName}
                   label="Course Name"
                   onChange={handleChange}
+                  disabled={!formData.programName}
                 >
-                  <MenuItem value="BCA">BCA</MenuItem>
-                  <MenuItem value="B.Tech">B.Tech</MenuItem>
-                  <MenuItem value="MCA">MCA</MenuItem>
-                  <MenuItem value="MBA">MBA</MenuItem>
+                  {formData.programName &&
+                    courseOptions[formData.programName]?.map((course) => (
+                      <MenuItem key={course} value={course}>
+                        {course}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
-              <DatePicker
-                label="Date of Birth"
-                value={formData.dateOfBirth}
-                onChange={(newValue) =>
-                  setFormData((prev) => ({ ...prev, dateOfBirth: newValue }))
-                }
-                renderInput={(params) => (
-                  <TextField {...params} margin="normal" fullWidth required />
-                )}
-              />
-              <DatePicker
-                label="Admission Date"
-                value={formData.admissionDate}
-                onChange={(newValue) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    admissionDate: newValue,
-                  }))
-                }
-                renderInput={(params) => (
-                  <TextField {...params} margin="normal" fullWidth required />
-                )}
-              />
+
+              <Stack spacing={2} direction="column" sx={{ mt: 2 }}>
+                <DatePicker
+                  label="Date of Birth"
+                  value={formData.dateOfBirth}
+                  onChange={(newValue) =>
+                    setFormData((prev) => ({ ...prev, dateOfBirth: newValue }))
+                  }
+                  renderInput={(params) => (
+                    <TextField {...params} margin="normal" fullWidth required />
+                  )}
+                />
+                <DatePicker
+                  label="Admission Date"
+                  value={formData.admissionDate}
+                  onChange={(newValue) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      admissionDate: newValue,
+                    }))
+                  }
+                  renderInput={(params) => (
+                    <TextField {...params} margin="normal" fullWidth required />
+                  )}
+                />
+              </Stack>
               <FormControlLabel
                 control={
                   <Checkbox

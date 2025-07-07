@@ -1,111 +1,147 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 import {
+  Avatar,
   Box,
   Button,
   Container,
-  TextField,
-  Typography,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  Paper,
-  Avatar,
-  Alert
-} from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function StudentVerification() {
-  const [enrollmentNumber, setEnrollmentNumber] = useState('');
+  const theme = useTheme();
+  const [enrollmentNumber, setEnrollmentNumber] = useState("");
   const [student, setStudent] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleVerify = async () => {
     setStudent(null);
+    setLoading(true); // Start loading
+
     try {
-        console.log(enrollmentNumber);
-      const res = await axios.get(`/api/student/profile?enrollmentNumber=${enrollmentNumber}`);
+      const res = await axios.get(
+        `/api/student/profile?enrollmentNumber=${enrollmentNumber}`
+      );
       setStudent(res.data);
-      toast.success('Student found successfully');
+      toast.success("Student found successfully");
     } catch (err) {
-      toast.error('Student not found');
+      toast.error("Student not found");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ my: 4 }}>
-        <ToastContainer />
-      <Typography variant="h5" gutterBottom>
-        Student Verification
-      </Typography>
-      <TextField
-        fullWidth
-        label="enrollment Number"
-        value={enrollmentNumber}
-        onChange={(e) => setEnrollmentNumber(e.target.value)}
-        margin="normal"
-        required
-      />
-      <Button variant="contained" onClick={handleVerify} sx={{ mb: 2 }}>
-        Verify
-      </Button>
+    <Container maxWidth="sm" sx={{ my: 6 }}>
+      <ToastContainer />
 
-      {student && (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableBody>
-              {student.studentProfilePicture && (
-                <TableRow>
-                  <TableCell colSpan={2} align="center">
-                    <Avatar
-                      alt={student.studentName}
-                      src={`data:image/jpeg;base64,${student.studentProfilePicture}`}
-                      sx={{ width: 100, height: 100, margin: 'auto' }}
-                    />
-                  </TableCell>
-                </TableRow>
-              )}
-              <TableRow>
-                <TableCell><strong>enrollment Number</strong></TableCell>
-                <TableCell>{student.enrollmentNumber}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Student Name</strong></TableCell>
-                <TableCell>{student.studentName}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Gender</strong></TableCell>
-                <TableCell>{student.gender}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Father's Name</strong></TableCell>
-                <TableCell>{student.fatherName}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Program Name</strong></TableCell>
-                <TableCell>{student.programName}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Course Name</strong></TableCell>
-                <TableCell>{student.courseName}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Date of Birth</strong></TableCell>
-                <TableCell>{student.dateOfBirth}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Admission Date</strong></TableCell>
-                <TableCell>{student.admissionDate}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell><strong>Verified</strong></TableCell>
-                <TableCell>{student.isVerified ? 'Yes' : 'No'}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+      <Paper
+        elevation={4}
+        sx={{
+          p: 4,
+          borderRadius: 3,
+          backgroundColor: theme.palette.background.default,
+          border: `1px solid ${theme.palette.primary.main}`,
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{ mb: 3, fontWeight: 600, color: theme.palette.primary.main }}
+        >
+          🎓 Student Verification
+        </Typography>
+
+        <TextField
+          fullWidth
+          label="Enrollment Number"
+          value={enrollmentNumber}
+          onChange={(e) => setEnrollmentNumber(e.target.value)}
+          variant="outlined"
+          margin="normal"
+          required
+        />
+
+        <Button
+          variant="contained"
+          onClick={handleVerify}
+          fullWidth
+          disabled={loading}
+          sx={{
+            mt: 2,
+            py: 1.3,
+            fontWeight: 600,
+            backgroundColor: theme.palette.primary.main,
+            "&:hover": {
+              backgroundColor: theme.palette.primary.dark,
+            },
+            "&.Mui-disabled": {
+              backgroundColor: theme.palette.primary.main,
+              color: "#fff",
+              opacity: 0.7, // Optional: slightly faded to indicate it's disabled
+            },
+          }}
+        >
+          {loading ? "Verifying..." : "Verify"}
+        </Button>
+
+        {student && (
+          <TableContainer
+            component={Paper}
+            sx={{
+              mt: 5,
+              border: `1px solid ${theme.palette.primary.main}`,
+              borderRadius: 2,
+              overflow: "hidden",
+            }}
+          >
+            <Table>
+              <TableBody sx={{ backgroundColor: "#f4f4f4" }}>
+                {student.studentProfilePicture && (
+                  <TableRow sx={{ backgroundColor: "#f4f4f4" }}>
+                    <TableCell colSpan={2} align="center">
+                      <Avatar
+                        alt={student.studentName}
+                        src={`data:image/jpeg;base64,${student.studentProfilePicture}`}
+                        sx={{ width: 100, height: 100, mx: "auto", my: 2 }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
+
+                {renderInfoRow("Enrollment Number", student.enrollmentNumber)}
+                {renderInfoRow("Student Name", student.studentName)}
+                {renderInfoRow("Gender", student.gender)}
+                {renderInfoRow("Father's Name", student.fatherName)}
+                {renderInfoRow("Program Name", student.programName)}
+                {renderInfoRow("Course Name", student.courseName)}
+                {renderInfoRow("Date of Birth", student.dateOfBirth)}
+                {renderInfoRow("Admission Date", student.admissionDate)}
+                {renderInfoRow("Verified", student.isVerified ? "Yes" : "No")}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Paper>
     </Container>
   );
 }
+
+// Reusable row renderer with border and subtle alternating row background
+const renderInfoRow = (label, value, index) => (
+  <TableRow key={label} sx={{ "& td": { borderBottom: "1px solid #ccc" } }}>
+    <TableCell sx={{ fontWeight: "bold", width: "40%", py: 1.5 }}>
+      {label}
+    </TableCell>
+    <TableCell sx={{ py: 1.5 }}>{value}</TableCell>
+  </TableRow>
+);

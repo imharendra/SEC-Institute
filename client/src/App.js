@@ -14,6 +14,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./components/styles/style.css";
 import StudentVerification from "./components/Student/StudentVerification";
+import Courses from "./components/Courses";
+import Branches from "./components/Branches";
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/studentverify" element={<StudentVerification />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/branches" element={<Branches />} />
           {/* <Route path="/studentverify" element={<StudentVerification />} /> */}
           
         </Routes>

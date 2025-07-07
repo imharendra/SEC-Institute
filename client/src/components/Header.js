@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppBar,
   Box,
@@ -13,100 +13,187 @@ import {
   List,
   ListItem,
   ListItemText,
-  Toolbar
+  Toolbar,
+  Menu,
+  MenuItem
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
-import logo from '../assets/logo.jpeg'; // Adjust the path as necessary
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.jpeg';
 
 const navItems = [
   { label: 'HOME', path: '/' },
-  { label: 'ABOUT US', path: '/about' },
-  { label: 'CONTACT US', path: '/contact' },
   { label: 'STUDENT VERIFICATION', path: '/studentverify' },
-  { label: 'COURSE', path: '/courses' },
+  { label: 'COURSES', path: '/courses' },
   { label: 'OUR BRANCHES', path: '/branches' },
-  { label: 'ONLINE LEARNING', path: '/online-learning' },
-  { label: 'REGISTER STUDENT', path: '/registerstudent' },
+  { label: 'STUDENT REGISTRATION', path: '/registerstudent' },
 ];
 
 export default function Header() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userDetails, setUserDetails]= useState(null);
+
+  const token = localStorage.getItem('token');
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(!!user);
+    if(user){
+      setUserDetails(user);
+    }
+  }, [isLoggedIn, token]);
 
   const toggleDrawer = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  return (
-      <AppBar position="static" color="default">
-      <Container maxWidth="xl" className='bgcolor-rosewater'>
-        <Box display="flex" justifyContent="center" py={2} flexDirection={isMobile ? 'column' : 'row'}>
-          <Box display="flex" alignItems="center">
-            <img src={logo} alt="SECI Logo" style={{ height: 60, marginRight: 10 }} />
-            <Box textAlign={isMobile ? 'center' : 'left'}>
-              <Typography variant="h6">SOMNATH EDUCATION & COMPUTER INSTITUTE</Typography>
-              <Typography variant="body2">WWW.SECINSTITUTE.IN</Typography>
-            </Box>
-          </Box>
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-          {isMobile && (
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer}
-              sx={{ position: 'absolute', right: 16, top: 50 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    handleMenuClose();
+    navigate('/');
+  };
+
+  return (
+    <AppBar position="static" color="primary">
+      <Box
+        display="flex"
+        justifyContent="center"
+        py={2}
+        flexDirection={isMobile ? 'column' : 'row'}
+        sx={{ backgroundColor: '#fff' }}
+      >
+        <Box display="flex" alignItems="center">
+          <img src={logo} alt="SECI Logo" style={{ height: 60, marginRight: 10 }} />
+          <Box textAlign="center">
+            <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
+              SOMNATH EDUCATION & COMPUTER INSTITUTE
+            </Typography>
+            <Typography variant="body2" sx={{ color: theme.palette.text.primary }}>
+              WWW.SECINSTITUTE.IN
+            </Typography>
+          </Box>
         </Box>
 
-        <Divider />
+        {isMobile && (
+          <IconButton
+            edge="end"
+            aria-label="menu"
+            onClick={toggleDrawer}
+            sx={{
+              position: 'absolute',
+              right: 16,
+              top: 50,
+              backgroundColor: theme.palette.secondary.main,
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+      </Box>
 
-        {!isMobile ? (
-          <Box display="flex" justifyContent="space-between" flexWrap="wrap" alignItems="center" py={1}>
-            <Box display="flex" flexWrap="wrap">
-              {navItems.map((item) => (
-                <Button
-                  key={item.label}
-                  component={Link}
-                  to={item.path}
-                  color="inherit"
-                  sx={{ mx: 0.5 }}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </Box>
+      <Divider />
+
+      {!isMobile ? (
+        <Box
+          display="flex"
+          justifyContent="space-around"
+          alignItems="center"
+          py={1}
+          sx={{ backgroundColor: theme.palette.primary.main }}
+        >
+          <Box display="flex" flexWrap="wrap">
+            {navItems.map((item) => (
+              <Button
+                key={item.label}
+                component={Link}
+                to={item.path}
+                color="inherit"
+                sx={{ mx: 0.5 }}
+              >
+                {item.label}
+              </Button>
+            ))}
+          </Box>
+
+          {!isLoggedIn ? (
             <Button
               variant="outlined"
-              color="primary"
+              color="secondary"
               component={Link}
               to="/login"
+              sx={{
+                borderColor: '#fff',
+                color: '#fff',
+                '&:hover': { borderColor: '#ccc' },
+              }}
             >
               Login
             </Button>
-          </Box>
-        ) : (
-          <Drawer anchor="right" open={mobileOpen} onClose={toggleDrawer}>
-            <Box sx={{ width: 250 }} onClick={toggleDrawer}>
-              <List>
-                {navItems.map((item) => (
-                  <ListItem button component={Link} to={item.path} key={item.label}>
-                    <ListItemText primary={item.label} />
-                  </ListItem>
-                ))}
-                <ListItem button component={Link} to="/login">
-                  <ListItemText primary="Login" />
+          ) : (
+            <>
+              <IconButton onClick={handleMenuOpen} sx={{ color: '#fff' }}>
+                Hi {userDetails?.fullName}<AccountCircleIcon />
+              </IconButton>
+              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                <MenuItem onClick={() => { handleMenuClose(); navigate('/profile'); }}>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </>
+          )}
+        </Box>
+      ) : (
+        <Drawer anchor="right" open={mobileOpen} onClose={toggleDrawer}>
+          <Box
+            sx={{
+              width: 250,
+              backgroundColor: theme.palette.primary.main,
+              height: '100%',
+            }}
+            onClick={toggleDrawer}
+          >
+            <List>
+              {navItems.map((item) => (
+                <ListItem button component={Link} to={item.path} key={item.label}>
+                  <ListItemText primary={item.label} sx={{ color: 'white' }} />
                 </ListItem>
-              </List>
-            </Box>
-          </Drawer>
-        )}
-      </Container>
+              ))}
+              {!isLoggedIn ? (
+                <ListItem button component={Link} to="/login">
+                  <ListItemText primary="Login" sx={{ color: 'white' }} />
+                </ListItem>
+              ) : (
+                <>
+                  <ListItem button onClick={() => navigate('/profile')}>
+                    <ListItemText primary="Profile" sx={{ color: 'white' }} />
+                  </ListItem>
+                  <ListItem button onClick={handleLogout}>
+                    <ListItemText primary="Logout" sx={{ color: 'white' }} />
+                  </ListItem>
+                </>
+              )}
+            </List>
+          </Box>
+        </Drawer>
+      )}
     </AppBar>
   );
 }

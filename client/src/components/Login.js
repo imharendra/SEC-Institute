@@ -51,7 +51,10 @@ export default function Login() {
       const { token, user } = response.data;  
       localStorage.setItem('token', token); // Store token for future requests
       localStorage.setItem('user', JSON.stringify(user)); // Store user data
-      navigate('/');
+      console.log(localStorage.getItem('user'))
+      setTimeout(()=>{
+        navigate('/');
+      },[500])
 
     } catch (error) {
       toast.error(`Login failed: ${error.response ? error.response.data.message : error.message}`);
@@ -124,10 +127,18 @@ export default function Login() {
             </Stack>
 
             <Button
+              onClick={()=>navigate("/signup")}
+              fullWidth
+              variant="text"
+              sx={{ mt: 2, }}
+            >
+              Create a new account
+            </Button>
+
+            <Button
               onClick={handleForgotPassword}
               fullWidth
               variant="text"
-              sx={{ mt: 2 }}
             >
               Forgot Password?
             </Button>
