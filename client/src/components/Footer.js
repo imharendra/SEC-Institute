@@ -1,65 +1,135 @@
 import React from "react";
-import { Box, Container, Grid, Typography, Link } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  Link,
+  useTheme,
+} from "@mui/material";
 
 export default function Footer() {
+  const theme = useTheme();
+
   return (
-    <div className="bgcolor-coffee-pot">
-      <Box sx={{mt: 4, py: 4 }}>
-        <Container>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6">Help</Typography>
-              <Typography>Email: info@hikeinstitute.com</Typography>
-              <Typography>Call directly: +91 8445443437</Typography>
-              <Typography>
-                Reach Us: BSA Engineering College Road opp RS Plaza, Mathura, UP
-                - 281001
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6">Important Link</Typography>
-              {[
-                "Home",
-                "About",
-                "Courses",
-                "Branches",
-                "Webmail",
-                "Branch Login",
-                "Privacy Policy",
-              ].map((text) => (
-                <Typography key={text}>
-                  <Link href="#" color="inherit" sx={{ textDecoration: 'none', color:'#EED6D3' }}>
-                    {text}
-                  </Link>
-                </Typography>
-              ))}
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6">Location</Typography>
-              <Box>
-                <iframe
-                  title="SECI Location"
-                  src="https://www.google.com/maps/embed?..."
-                  width="100%"
-                  height="150"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                ></iframe>
-              </Box>
-            </Grid>
+    <Box
+      sx={{
+        backgroundColor: theme.palette.primary.main,
+        color: "#fff",
+        mt: 6,
+        pt: 6,
+        pb: 4,
+      }}
+    >
+      <Container maxWidth="lg">
+        {/* Top Footer with Columns */}
+        <Grid
+          container
+          spacing={4}
+          justifyContent="space-between"
+          alignItems="flex-start"
+        >
+          {/* Contact Info */}
+          <Grid item xs={12} sm={6} md={3} sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" gutterBottom>
+              Help & Contact
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Email: somnatheducationinstitute@gmail.com
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Call: +91 6395267390
+            </Typography>
+            <Typography variant="body2">
+              Somnath Marriage Home, NH-19, Mathura, UP - 281001
+            </Typography>
           </Grid>
 
-          <Box mt={4} textAlign="center">
+          {/* Important Links */}
+          <Grid item xs={12} sm={6} md={3} sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" gutterBottom>
+              Important Links
+            </Typography>
+            {[
+              { text: "Home", href: "#" },
+              { text: "About", href: "#" },
+              { text: "Courses", href: "#" },
+              { text: "Branches", href: "#" },
+              { text: "Privacy Policy", href: "#" },
+            ].map((link) => (
+              <Typography variant="body2" key={link.text} sx={{ mb: 1 }}>
+                <Link
+                  href={link.href}
+                  underline="none"
+                  sx={{
+                    color: "#EED6D3",
+                    "&:hover": {
+                      color: "#fff",
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  {link.text}
+                </Link>
+              </Typography>
+            ))}
+          </Grid>
+
+          {/* Map Column */}
+          <Grid item xs={12} sm={12} md={5} sx={{ flexGrow: 2 }}>
+            <Typography variant="h6" gutterBottom>
+              Our Location
+            </Typography>
+            <Box sx={{ borderRadius: 1, overflow: "hidden", mt: 1 }}>
+              <iframe
+                title="SECI Location"
+                src="https://www.google.com/maps/embed?pb=..." // Replace with real link
+                width="100%"
+                height="150"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Bottom Footer */}
+        <Box
+          mt={6}
+          display="flex"
+          flexDirection={{ xs: "column", md: "row" }}
+          justifyContent="space-between"
+          alignItems={{ xs: "flex-start", md: "center" }}
+          textAlign={{ xs: "left", md: "left" }}
+          gap={2}
+        >
+          <Typography
+            variant="body2"
+            sx={{ fontSize: "0.85rem", color: "#ccc" }}
+          >
+            © 2025 Somnath Education & Computer Institute. All Rights Reserved.
+          </Typography>
+
+          <Box textAlign="right">
+            <Typography variant="body2" sx={{ color: "#ccc" }}>
+              Developed by: DEVELOPER NAME
+            </Typography>
             <Typography variant="body2">
-              Powered By : Hypernet | Copyright ©2019-20 Hike Institute of
-              Computer Education | All Rights Reserved
+              <Link
+                href="mailto:EMAIL@gmail.com"
+                underline="none"
+                sx={{
+                  color: "#EED6D3",
+                  "&:hover": { color: "#fff", textDecoration: "underline" },
+                }}
+              >
+                EMAIL@gmail.com
+              </Link>
             </Typography>
           </Box>
-        </Container>
-      </Box>
-    </div>
+        </Box>
+      </Container>
+    </Box>
   );
 }

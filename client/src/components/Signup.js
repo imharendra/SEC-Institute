@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   TextField,
@@ -20,6 +21,8 @@ export default function Signup() {
     password: '',
     confirmPassword: '',
   });
+
+  const navigate= useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -153,10 +156,17 @@ export default function Signup() {
             </Stack>
 
             <Button
-              onClick={handleForgotPassword}
+              onClick={()=>navigate("/login")}
               fullWidth
               variant="text"
               sx={{ mt: 2 }}
+            >
+              Already have an account? Sign in
+            </Button>
+            <Button
+              onClick={handleForgotPassword}
+              fullWidth
+              variant="text"
             >
               Forgot Password?
             </Button>
