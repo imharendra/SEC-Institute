@@ -3,6 +3,7 @@ const courseOptions = {
   Diploma: [
     "Advanced Diploma in Computer Applications",
     "Diploma in office Automation, Accounting, Publishing",
+    "Diploma in Computer Applications & Accounting (DCA)",
     "Desktop Publishing",
     "Yoga (1 year)",
     "'O' Level",

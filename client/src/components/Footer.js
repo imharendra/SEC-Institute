@@ -6,6 +6,7 @@ import {
   Typography,
   Link,
   useTheme,
+  Button,
 } from "@mui/material";
 
 export default function Footer() {
@@ -82,15 +83,25 @@ export default function Footer() {
             </Typography>
             <Box sx={{ borderRadius: 1, overflow: "hidden", mt: 1 }}>
               <iframe
-                title="SECI Location"
-                src="https://www.google.com/maps/embed?pb=..." // Replace with real link
+                title="SEC Institute Location"
+                src="https://www.google.com/maps?q=27.454789, 77.682027&z=18&output=embed" // Replace with real link
                 width="100%"
                 height="150"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </Box>
+            <Button
+        variant="contained"
+        color="primary"
+        href="https://www.google.com/maps/search/?api=1&query=27.454789, 77.682027"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        📍 Open in Google Maps
+      </Button>
           </Grid>
         </Grid>
 

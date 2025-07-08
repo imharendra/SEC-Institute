@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -15,37 +15,43 @@ import {
   ListItemText,
   Toolbar,
   Menu,
-  MenuItem
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.jpeg';
+  MenuItem,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logoSEI.png";
 
 const navItems = [
-  { label: 'HOME', path: '/' },
-  { label: 'STUDENT VERIFICATION', path: '/studentverify' },
-  { label: 'COURSES', path: '/courses' },
-  { label: 'OUR BRANCHES', path: '/branches' },
-  { label: 'STUDENT REGISTRATION', path: '/registerstudent' },
+  { label: "HOME", path: "/" },
+  { label: "STUDENT VERIFICATION", path: "/studentverify" },
+  { label: "COURSES", path: "/courses" },
+  { label: "ONLINE LEARNING", path: "/online-learning" },
+  { label: "OUR BRANCHES", path: "/branches" },
+  // { label: "STUDENT REGISTRATION", path: "/registerstudent" },
 ];
 
 export default function Header() {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userDetails, setUserDetails]= useState(null);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
+
+  console.log("Token:", token);
+  console.log("User Details:", localStorage.getItem("user"));
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem("user");
+    console.log("User:", user);
     setIsLoggedIn(!!user);
-    if(user){
+    if (user) {
       setUserDetails(user);
     }
   }, [isLoggedIn, token]);
@@ -63,11 +69,11 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
     handleMenuClose();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -76,16 +82,23 @@ export default function Header() {
         display="flex"
         justifyContent="center"
         py={2}
-        flexDirection={isMobile ? 'column' : 'row'}
-        sx={{ backgroundColor: '#fff' }}
+        flexDirection={isMobile ? "column" : "row"}
+        sx={{ backgroundColor: "#fff" }}
       >
         <Box display="flex" alignItems="center">
-          <img src={logo} alt="SECI Logo" style={{ height: 60, marginRight: 10 }} />
+          <img
+            src={logo}
+            alt="SECI Logo"
+            style={{ height: 60, marginRight: 10 }}
+          />
           <Box textAlign="center">
             <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
               SOMNATH EDUCATION & COMPUTER INSTITUTE
             </Typography>
-            <Typography variant="body2" sx={{ color: theme.palette.text.primary }}>
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.text.primary }}
+            >
               WWW.SECINSTITUTE.IN
             </Typography>
           </Box>
@@ -97,7 +110,7 @@ export default function Header() {
             aria-label="menu"
             onClick={toggleDrawer}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 16,
               top: 50,
               backgroundColor: theme.palette.secondary.main,
@@ -130,6 +143,17 @@ export default function Header() {
                 {item.label}
               </Button>
             ))}
+            {isLoggedIn && (
+              <Button
+                component={Link}
+                to="/admin/registerstudent"
+                color="inherit"
+                sx={{ mx: 0.5 }}
+              >
+                Student Registration
+              </Button>
+            )
+            }
           </Box>
 
           {!isLoggedIn ? (
@@ -139,24 +163,62 @@ export default function Header() {
               component={Link}
               to="/login"
               sx={{
-                borderColor: '#fff',
-                color: '#fff',
-                '&:hover': { borderColor: '#ccc' },
+                borderColor: "#fff",
+                color: "#fff",
+                "&:hover": { borderColor: "#ccc" },
               }}
             >
               Login
             </Button>
           ) : (
             <>
-              <IconButton onClick={handleMenuOpen} sx={{ color: '#fff' }}>
-                Hi {userDetails?.fullName}<AccountCircleIcon />
-              </IconButton>
-              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                <MenuItem onClick={() => { handleMenuClose(); navigate('/profile'); }}>
-                  Profile
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
+              <Box>
+                <Button
+                  onClick={handleMenuOpen}
+                  sx={{
+                    color: "#fff",
+                    textTransform: "none",
+                    fontWeight: 500,
+                  }}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Welcome,{" "}
+                  {userDetails ? JSON.parse(userDetails).fullName : "User"}
+                </Button>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  transformOrigin={{ vertical: "top", horizontal: "right" }}
+                  sx={{
+                    "& .MuiMenu-paper": {
+                      borderRadius: 2,
+                      minWidth: 160,
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                    },
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      handleMenuClose();
+                      navigate("/admin/dashboard");
+                    }}
+                  >
+                    Admin Dashboard
+                  </MenuItem>
+                  {/* <MenuItem
+                    onClick={() => {
+                      handleMenuClose();
+                      navigate("/admin/profile");
+                    }}
+                  >
+                    Profile
+                  </MenuItem> */}
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </Box>
             </>
           )}
         </Box>
@@ -166,27 +228,32 @@ export default function Header() {
             sx={{
               width: 250,
               backgroundColor: theme.palette.primary.main,
-              height: '100%',
+              height: "100%",
             }}
             onClick={toggleDrawer}
           >
             <List>
               {navItems.map((item) => (
-                <ListItem button component={Link} to={item.path} key={item.label}>
-                  <ListItemText primary={item.label} sx={{ color: 'white' }} />
+                <ListItem
+                  button
+                  component={Link}
+                  to={item.path}
+                  key={item.label}
+                >
+                  <ListItemText primary={item.label} sx={{ color: "white" }} />
                 </ListItem>
               ))}
               {!isLoggedIn ? (
                 <ListItem button component={Link} to="/login">
-                  <ListItemText primary="Login" sx={{ color: 'white' }} />
+                  <ListItemText primary="Login" sx={{ color: "white" }} />
                 </ListItem>
               ) : (
                 <>
-                  <ListItem button onClick={() => navigate('/profile')}>
-                    <ListItemText primary="Profile" sx={{ color: 'white' }} />
+                  <ListItem button onClick={() => navigate("/admin/registerstudent")}>
+                    <ListItemText primary="STUDENT REGISTRATION" sx={{ color: "white" }} />
                   </ListItem>
                   <ListItem button onClick={handleLogout}>
-                    <ListItemText primary="Logout" sx={{ color: 'white' }} />
+                    <ListItemText primary="LOGOUT" sx={{ color: "white" }} />
                   </ListItem>
                 </>
               )}
