@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const admin= require("./routes/admin");
 const student = require("./routes/student");
-require("dotenv").config({ path: ".env" });
+require("dotenv").config({ path: ".env.local" });
+// require("dotenv").config({ path: ".env" });  // For production
 
 const PORT = process.env.PORT || 5000; // For development
 // const PORT = 8183;  // For production
@@ -16,11 +17,13 @@ const { fileParser } = require("express-multipart-file-parser");
 // Use the fileParser middleware
 app.use(fileParser({
   rawBodyOptions: {
-      limit: '10mb', // Adjust the size limit as needed
+      limit: '64kb', // Adjust the size limit as needed
+    //   limit: '10mb', // Adjust the size limit as needed
   },
   busboyOptions: {
       limits: {
-          fileSize: 5 * 1024 * 1024, // 5MB file size limit
+          fileSize: 0.064 * 1024 * 1024, // 5MB file size limit
+        //   fileSize: 5 * 1024 * 1024, // 5MB file size limit
       },
   },
 }));

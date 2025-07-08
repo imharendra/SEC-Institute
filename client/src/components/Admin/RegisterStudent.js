@@ -25,7 +25,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ImageCompressor from "image-compressor.js";
-import courseOptions from "../utils/courseOptions";
+import courseOptions from "../../utils/courseOptions";
 
 export default function RegisterStudent() {
   const theme = useTheme();
@@ -58,35 +58,58 @@ export default function RegisterStudent() {
     }
   };
 
-  const handleFileChange = async (e) => {
+  // const handleFileChange = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+
+  //   if (file.size > 0.064 * 1024 * 1024) {
+  //     try {
+  //       new ImageCompressor(file, {
+  //         quality: 0.6,
+  //         maxWidth: 800,
+  //         maxHeight: 800,
+  //         success(result) {
+  //           setSelectedFile(result);
+  //           const reader = new FileReader();
+  //           reader.onloadend = () => setPreview(reader.result);
+  //           reader.readAsDataURL(result);
+  //         },
+  //         error(err) {
+  //           console.error("Image compression error:", err);
+  //         },
+  //       });
+  //     } catch (error) {
+  //       console.error("Compression failed:", error);
+  //     }
+  //   } else {
+  //     setSelectedFile(file);
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => setPreview(reader.result);
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 0.064 * 1024 * 1024) {
-      try {
-        new ImageCompressor(file, {
-          quality: 0.6,
-          maxWidth: 800,
-          maxHeight: 800,
-          success(result) {
-            setSelectedFile(result);
-            const reader = new FileReader();
-            reader.onloadend = () => setPreview(reader.result);
-            reader.readAsDataURL(result);
-          },
-          error(err) {
-            console.error("Image compression error:", err);
-          },
-        });
-      } catch (error) {
-        console.error("Compression failed:", error);
-      }
-    } else {
-      setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(file);
+    // 64 KB in bytes
+    const maxSize = 64 * 1024;
+
+    if (file.size > maxSize) {
+      toast.error(
+        "File size should be less than or equal to 64 KB. Please choose a smaller file."
+      );
+      // Optionally reset file input here if you want to clear it:
+      e.target.value = null;
+      return;
     }
+
+    // If file size is okay, proceed
+    setSelectedFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e) => {
@@ -204,7 +227,7 @@ export default function RegisterStudent() {
                 margin="normal"
                 required
               />
-              
+
               <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
                 Gender
               </Typography>

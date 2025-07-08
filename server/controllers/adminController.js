@@ -8,6 +8,7 @@ const Student = require("../models/Student");
 const Counter = require("../models/Counter");
 const sendEmail = require("../services/mailer");
 const Admin = require("../models/Admin");
+const { default: mongoose } = require("mongoose");
 // const Visit = require("../models/Visitor");
 // const passport = require("../services/passportAuth.js");
 
@@ -23,18 +24,35 @@ const getNextEnrollmentNumber = async () => {
 };
 
 exports.fetchAllStudents = async (req, res) => {
+  const { page = 1, search = "" } = req.query;
+  const pageSize = 5;
+
   try {
-    const users = await Student.find();
-    res.json(users);
-  } catch (error) {
-    console.error("Account deletion failed:", error);
-    res.status(500).json({ error: "Failed to delete the account" });
+   const query = {
+  $or: [
+    { studentName: { $regex: search, $options: "i" } },
+    { enrollmentNumber: { $regex: search, $options: "i" } }
+  ]
+};
+
+    const total = await Student.countDocuments(query);
+    const students = await Student.find(query)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    res.json({
+      students,
+      totalPages: Math.ceil(total / pageSize),
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 exports.createNewStudent = async (req, res) => {
   try {
     const {
+      enrollmentNumber,
       studentName,
       gender,
       fatherName,
@@ -45,7 +63,7 @@ exports.createNewStudent = async (req, res) => {
       isVerified,
     } = req.body;
 
-    const enrollmentNumber = await getNextEnrollmentNumber();
+    // const enrollmentNumber = await getNextEnrollmentNumber();
 
     const existingUser = await Student.findOne({ enrollmentNumber });
     if (existingUser) {
@@ -119,6 +137,72 @@ exports.createNewStudent = async (req, res) => {
   }
 };
 
+exports.editStudentDetails = async (req, res) => {
+  try {
+    const studentId = req.query.studentId;
+    const {
+      enrollmentNumber,
+      studentName,
+      gender,
+      fatherName,
+      programName,
+      courseName,
+      dateOfBirth,
+      admissionDate,
+      isVerified
+    } = req.body;
+    const student = await Student.findById(studentId);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    // Check if the enrollment number is already taken by another student
+    const existingStudent = await Student.findOne({
+      enrollmentNumber,
+      _id: { $ne: studentId }, // Exclude the current student
+    });
+    if (existingStudent) {
+      return res.status(400).json({ message: "Enrollment number already exists" }); 
+    }
+    // Handle profile picture upload
+    let profilePictureData = null;  
+    const profilePicture = req.files.find(
+      (file) => file.fieldname === "profilePicture"
+    );
+    if (profilePicture) {
+      // Convert the file buffer to a Base64 string
+      profilePictureData = profilePicture.buffer.toString("base64");
+      console.log("File uploaded:", profilePictureData);
+    } else {
+      // If no new profile picture is uploaded, keep the existing one
+      profilePictureData = student.studentProfilePicture;
+    }
+    // Update student details
+    student.enrollmentNumber = enrollmentNumber;
+    student.studentName = studentName;
+    student.gender= gender;
+    student.fatherName = fatherName;
+    student.programName = programName;
+    student.courseName = courseName;
+    student.dateOfBirth = dateOfBirth;
+    student.admissionDate = admissionDate;
+    student.isVerified = isVerified || false;
+    student.studentProfilePicture = profilePictureData;
+    await student.save();
+    res.status(200).json({
+      message: "Student details updated successfully",
+      student: {
+        id: student._id,
+        enrollmentNumber: student.enrollmentNumber,
+        studentName: student.studentName,
+      }
+    });
+  } catch (error) {
+    console.error("Error updating student details:", error);
+    res.status(500).json({ message: "Failed to update student details", error: error.message });
+  }
+};
+
+
 exports.createNewAdmin = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -179,6 +263,35 @@ exports.login = async (req, res) => {
   } catch (error) {
     console.error("Login failed:", error);
     res.status(500).json({ message: "Login failed", error: error.message });
+  }
+};
+
+exports.getProfileDetails= async (req, res) => {
+  try {
+    const userId = req.query.userId;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      console.error("Invalid user ID:", userId);
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
+
+    const admin = await Admin.findById(userId);
+    if (!admin) {
+      console.error("Admin not found for user ID:", userId);
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.json({
+      userName: admin.userName,
+      fullName: admin.fullName,
+      email: admin.email,
+      role: admin.role,
+      profilePicture: admin.profilePicture,
+      isVerified: admin.isVerified,
+      createdAt: admin.createdAt,
+    });
+  } catch (error) {
+    console.error('Profile fetch error:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 

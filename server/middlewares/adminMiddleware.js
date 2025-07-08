@@ -1,14 +1,16 @@
 // adminMiddleware.js
+
+const jwt = require("jsonwebtoken");
 const adminMiddleware = (req, res, next) => {
-  // if (req.session && req.session.currentuserId && req.session.currentrole==="Admin") {
-    if (req.query.userId && req.query.role==="Admin") {
-    // User is authenticated, proceed to the next middleware or route handler
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token provided" });
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (req.query.userId && decoded._id !== req.query.userId) {
     next();
   } else {
-    // User is not authenticated, redirect to the login page or return an error
     console.log("In error");
     res.status(401).json({ message: "Unauthorized" });
-    // res.redirect("/login");
   }
 };
 

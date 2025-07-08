@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Homepage from "./components/Homepage";
-import RegisterStudent from "./components/RegisterStudent";
+import RegisterStudent from "./components/Admin/RegisterStudent";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ViewAllStudents from "./components/ViewAllStudents";
@@ -16,6 +16,9 @@ import "./components/styles/style.css";
 import StudentVerification from "./components/Student/StudentVerification";
 import Courses from "./components/Courses";
 import Branches from "./components/Branches";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import AdminProfile from "./components/Admin/AdminProfile";
+import OnlineLearning from "./components/Student/OnlineLearning";
 
 
 function App() {
@@ -27,13 +30,16 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Homepage />} exact />
-          <Route path="/registerstudent" element={<RegisterStudent />} exact />
           <Route path="/viewstudents" element={<ViewAllStudents />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/studentverify" element={<StudentVerification />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/branches" element={<Branches />} />
+          <Route path="/online-learning" element={<OnlineLearning />} />
+          <Route path="/admin/registerstudent" element={<RegisterStudent />} exact />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} exact />
+          <Route path="/admin/profile" element={<AdminProfile />} exact />
           {/* <Route path="/studentverify" element={<StudentVerification />} /> */}
           
         </Routes>
