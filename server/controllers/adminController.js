@@ -60,6 +60,7 @@ exports.createNewStudent = async (req, res) => {
       courseName,
       dateOfBirth,
       admissionDate,
+      certificateIssueDate,
       isVerified,
     } = req.body;
 
@@ -93,6 +94,7 @@ exports.createNewStudent = async (req, res) => {
       courseName,
       dateOfBirth,
       admissionDate,
+      certificateIssueDate,
       isVerified: isVerified || false,
       studentProfilePicture: profilePictureData,
     });
@@ -115,6 +117,7 @@ exports.createNewStudent = async (req, res) => {
                   <p><strong>Course Name:</strong> ${newStudent.courseName}</p>
                   <p><strong>Date of Birth:</strong> ${newStudent.dateOfBirth}</p>
                   <p><strong>Admission Date:</strong> ${newStudent.admissionDate}</p>
+                  <p><strong>Certificate Issue Date:</strong> ${newStudent.certificateIssueDate}</p>
               </div>
                 `;
 

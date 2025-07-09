@@ -38,6 +38,7 @@ export default function RegisterStudent() {
     courseName: "",
     dateOfBirth: null,
     admissionDate: null,
+    certificateIssueDate: null,
     isVerified: false,
   });
 
@@ -124,7 +125,8 @@ export default function RegisterStudent() {
       courseName,
       dateOfBirth,
       admissionDate,
-      isVerified,
+      certificateIssueDate,
+      isVerified
     } = formData;
 
     if (
@@ -135,7 +137,8 @@ export default function RegisterStudent() {
       !programName ||
       !courseName ||
       !dateOfBirth ||
-      !admissionDate
+      !admissionDate ||
+      !certificateIssueDate
     ) {
       toast.error("Please fill all fields.");
       return;
@@ -150,6 +153,7 @@ export default function RegisterStudent() {
     data.append("courseName", courseName);
     data.append("dateOfBirth", dateOfBirth);
     data.append("admissionDate", admissionDate);
+    data.append("certificateIssueDate", certificateIssueDate);
     data.append("isVerified", isVerified);
     console.log(selectedFile);
     if (selectedFile) {
@@ -183,6 +187,7 @@ export default function RegisterStudent() {
       courseName: "",
       dateOfBirth: null,
       admissionDate: null,
+      certificateIssueDate: null,
       isVerified: false,
     });
     setSelectedFile(null);
@@ -320,6 +325,19 @@ export default function RegisterStudent() {
                     setFormData((prev) => ({
                       ...prev,
                       admissionDate: newValue,
+                    }))
+                  }
+                  renderInput={(params) => (
+                    <TextField {...params} margin="normal" fullWidth required />
+                  )}
+                />
+                <DatePicker
+                  label="Certificate Issue Date"
+                  value={formData.certificateIssueDate}
+                  onChange={(newValue) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      certificateIssueDate: newValue,
                     }))
                   }
                   renderInput={(params) => (

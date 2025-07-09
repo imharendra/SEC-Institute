@@ -21,7 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logoSEI.png";
+import logo from "../assets/logo.png";
 
 const navItems = [
   { label: "HOME", path: "/" },
@@ -89,7 +89,7 @@ export default function Header() {
           <img
             src={logo}
             alt="SECI Logo"
-            style={{ height: 60, marginRight: 10 }}
+            style={{ height: 60, width:70, marginRight: 10, marginLeft: 10 }}
           />
           <Box textAlign="center">
             <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>

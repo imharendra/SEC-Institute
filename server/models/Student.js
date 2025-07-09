@@ -40,6 +40,10 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  certificateIssueDate: {
+    type: String,
+    required: true,
+  },
   role: {
     type: String,
     default: "Student",
