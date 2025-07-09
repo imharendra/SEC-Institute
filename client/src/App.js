@@ -34,7 +34,7 @@ function App() {
           <Route path="/" element={<Homepage />} exact />
           <Route path="/viewstudents" element={<ViewAllStudents />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          {/* <Route path="/signup" element={<Signup />} /> */}
           <Route path="/studentverify" element={<StudentVerification />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/branches" element={<Branches />} />
