@@ -1,5 +1,5 @@
 // EditStudentDetails.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -19,23 +19,29 @@ import {
   Stack,
   ToggleButtonGroup,
   ToggleButton,
-} from '@mui/material';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import courseOptions from '../../utils/courseOptions';
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+} from "@mui/material";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import courseOptions from "../../utils/courseOptions";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
-export default function EditStudentDetails({ open, student, onClose, onUpdate }) {
+export default function EditStudentDetails({
+  open,
+  student,
+  onClose,
+  onUpdate,
+}) {
   const [formData, setFormData] = useState({
-    enrollmentNumber: '',
-    studentName: '',
-    gender: '',
-    fatherName: '',
-    programName: '',
-    courseName: '',
+    enrollmentNumber: "",
+    studentName: "",
+    gender: "",
+    fatherName: "",
+    programName: "",
+    courseName: "",
     dateOfBirth: null,
     admissionDate: null,
+    certificateIssueDate: null,
     isVerified: false,
     studentProfilePicture: null,
   });
@@ -45,18 +51,27 @@ export default function EditStudentDetails({ open, student, onClose, onUpdate })
   useEffect(() => {
     if (student) {
       setFormData({
-        enrollmentNumber: student.enrollmentNumber || '',
-        studentName: student.studentName || '',
-        gender: student.gender || '',
-        fatherName: student.fatherName || '',
-        programName: student.programName || '',
-        courseName: student.courseName || '',
+        enrollmentNumber: student.enrollmentNumber || "",
+        studentName: student.studentName || "",
+        gender: student.gender || "",
+        fatherName: student.fatherName || "",
+        programName: student.programName || "",
+        courseName: student.courseName || "",
         dateOfBirth: student.dateOfBirth ? new Date(student.dateOfBirth) : null,
-        admissionDate: student.admissionDate ? new Date(student.admissionDate) : null,
+        admissionDate: student.admissionDate
+          ? new Date(student.admissionDate)
+          : null,
+        certificateIssueDate: student.certificateIssueDate
+          ? new Date(student.certificateIssueDate)
+          : null,
         isVerified: student.isVerified || false,
         studentProfilePicture: null,
       });
-      setPreview(student.studentProfilePicture ? `data:image/jpeg;base64,${student.studentProfilePicture}` : null);
+      setPreview(
+        student.studentProfilePicture
+          ? `data:image/jpeg;base64,${student.studentProfilePicture}`
+          : null
+      );
     }
   }, [student]);
 
@@ -69,8 +84,8 @@ export default function EditStudentDetails({ open, student, onClose, onUpdate })
     }));
 
     // Reset courseName if programName changes
-    if (name === 'programName') {
-      setFormData((prev) => ({ ...prev, courseName: '' }));
+    if (name === "programName") {
+      setFormData((prev) => ({ ...prev, courseName: "" }));
     }
   };
 
@@ -81,8 +96,7 @@ export default function EditStudentDetails({ open, student, onClose, onUpdate })
     }
   };
 
-
-const handleFileChange = (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -101,9 +115,8 @@ const handleFileChange = (e) => {
     reader.readAsDataURL(file);
   };
 
-
   // Save button handler
-  const handleSave = async(e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
 
     const {
@@ -115,6 +128,7 @@ const handleFileChange = (e) => {
       courseName,
       dateOfBirth,
       admissionDate,
+      certificateIssueDate,
       studentProfilePicture,
       isVerified,
     } = formData;
@@ -127,7 +141,8 @@ const handleFileChange = (e) => {
       !programName ||
       !courseName ||
       !dateOfBirth ||
-      !admissionDate
+      !admissionDate ||
+      !certificateIssueDate
     ) {
       toast.error("Please fill all fields.");
       return;
@@ -142,6 +157,7 @@ const handleFileChange = (e) => {
     data.append("courseName", courseName);
     data.append("dateOfBirth", dateOfBirth);
     data.append("admissionDate", admissionDate);
+    data.append("certificateIssueDate", certificateIssueDate);
     data.append("isVerified", isVerified);
     console.log(studentProfilePicture);
     if (studentProfilePicture) {
@@ -149,9 +165,13 @@ const handleFileChange = (e) => {
     }
 
     try {
-      const res = await axios.put(`/api/admin/editstudent/save?studentId=${student._id}`, data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.put(
+        `/api/admin/editstudent/save?studentId=${student._id}`,
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       console.log("Response:", res.data);
       if (res.status === 200) {
         toast.success("Student details edited successfully!");
@@ -171,7 +191,7 @@ const handleFileChange = (e) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-        <ToastContainer />
+      <ToastContainer />
       <DialogTitle>Edit Student Details</DialogTitle>
       <DialogContent dividers>
         <TextField
@@ -201,19 +221,19 @@ const handleFileChange = (e) => {
           onChange={handleGenderChange}
           fullWidth
         >
-          {['male', 'female', 'other'].map((gender) => (
+          {["male", "female", "other"].map((gender) => (
             <ToggleButton
               key={gender}
               value={gender}
               sx={{
-                textTransform: 'capitalize',
-                fontWeight: 'bold',
+                textTransform: "capitalize",
+                fontWeight: "bold",
                 borderRadius: 1,
-                '&.Mui-selected': {
-                  backgroundColor: '#90caf9',
-                  color: 'black',
-                  '&:hover': {
-                    backgroundColor: '#64b5f6',
+                "&.Mui-selected": {
+                  backgroundColor: "#90caf9",
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#64b5f6",
                   },
                 },
               }}
@@ -284,6 +304,19 @@ const handleFileChange = (e) => {
                 <TextField {...params} margin="normal" fullWidth required />
               )}
             />
+            <DatePicker
+              label="Certificate Issue Date"
+              value={formData.certificateIssueDate}
+              onChange={(newValue) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  certificateIssueDate: newValue,
+                }))
+              }
+              renderInput={(params) => (
+                <TextField {...params} margin="normal" fullWidth required />
+              )}
+            />
           </Stack>
         </LocalizationProvider>
         <FormControlLabel
@@ -291,7 +324,10 @@ const handleFileChange = (e) => {
             <Checkbox
               checked={formData.isVerified}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, isVerified: e.target.checked }))
+                setFormData((prev) => ({
+                  ...prev,
+                  isVerified: e.target.checked,
+                }))
               }
               name="isVerified"
               color="success"
@@ -312,7 +348,10 @@ const handleFileChange = (e) => {
           {preview && (
             <Box mt={2} textAlign="center">
               <Typography variant="subtitle2">Preview:</Typography>
-              <Avatar src={preview} sx={{ width: 100, height: 100, margin: 'auto' }} />
+              <Avatar
+                src={preview}
+                sx={{ width: 100, height: 100, margin: "auto" }}
+              />
             </Box>
           )}
         </Box>

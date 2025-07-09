@@ -39,5 +39,7 @@ app.use(cors());
 
 app.use("/api/admin", admin);
 app.use("/api/student", student);
+app.use("/api/visitors", student);
+
 
 app.listen(PORT, console.log("Server started at " + PORT+ " and pid: "+ process.pid));

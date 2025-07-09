@@ -1,13 +1,14 @@
-import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Container,
   Grid,
   Typography,
-  Link,
   useTheme,
+  Link,
   Button,
 } from "@mui/material";
+import VisitorBadge from "./VisitorBadge";
 
 export default function Footer() {
   const theme = useTheme();
@@ -52,15 +53,17 @@ export default function Footer() {
               Important Links
             </Typography>
             {[
-              { text: "Home", href: "#" },
+              { text: "Home", href: "/" },
               { text: "About", href: "#" },
-              { text: "Courses", href: "#" },
-              { text: "Branches", href: "#" },
-              { text: "Privacy Policy", href: "#" },
+              { text: "Courses", href: "/courses" },
+              { text: "Branches", href: "/branches" },
+              { text: "Privacy Policy", href: "/privacypolicy" },
+              { text: "Terms & Conditions", href: "/termsandconditions" },
             ].map((link) => (
-              <Typography variant="body2" key={link.text} sx={{ mb: 1 }}>
+              <Typography variant="body2" sx={{ mb: 1 }}>
                 <Link
-                  href={link.href}
+                  component={RouterLink}
+                  to={link.href}
                   underline="none"
                   sx={{
                     color: "#EED6D3",
@@ -93,15 +96,15 @@ export default function Footer() {
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </Box>
-            <Button
-        variant="contained"
-        color="primary"
-        href="https://www.google.com/maps/search/?api=1&query=27.454789, 77.682027"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        📍 Open in Google Maps
-      </Button>
+            {/* <Button
+              variant="contained"
+              color="primary"
+              href="https://www.google.com/maps/search/?api=1&query=27.454789, 77.682027"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              📍 Open in Google Maps
+            </Button> */}
           </Grid>
         </Grid>
 
@@ -122,20 +125,24 @@ export default function Footer() {
             © 2025 Somnath Education & Computer Institute. All Rights Reserved.
           </Typography>
 
+          {/* <VisitorBadge /> */}
+
           <Box textAlign="right">
             <Typography variant="body2" sx={{ color: "#ccc" }}>
-              Developed by: DEVELOPER NAME
+              Developed by: TEEKAM SINGH
             </Typography>
             <Typography variant="body2">
               <Link
-                href="mailto:EMAIL@gmail.com"
+                href="https://www.singhteekam.in"
+                target="_blank"
+                rel="noopener noreferrer"
                 underline="none"
                 sx={{
                   color: "#EED6D3",
                   "&:hover": { color: "#fff", textDecoration: "underline" },
                 }}
               >
-                EMAIL@gmail.com
+                www.singhteekam.in
               </Link>
             </Typography>
           </Box>

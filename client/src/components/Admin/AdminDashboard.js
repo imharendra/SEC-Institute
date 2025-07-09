@@ -12,6 +12,7 @@ import {
   Paper,
   TextField,
   Pagination,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import EditStudentDetails from "./EditStudentDetails";
@@ -72,6 +73,9 @@ export default function AdminDashboard() {
   return (
     <Container sx={{ mt: 4 }}>
       <ToastContainer />
+      <Typography variant="h4" gutterBottom>
+        Admin Dashboard
+      </Typography>
       <TextField
         label="Search by Name or Enrollment"
         fullWidth

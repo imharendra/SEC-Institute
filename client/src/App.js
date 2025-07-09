@@ -19,6 +19,8 @@ import Branches from "./components/Branches";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminProfile from "./components/Admin/AdminProfile";
 import OnlineLearning from "./components/Student/OnlineLearning";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import TermsAndConditions from "./components/TermsAndConditions";
 
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
           <Route path="/studentverify" element={<StudentVerification />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/branches" element={<Branches />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/termsandconditions" element={<TermsAndConditions />} />
           <Route path="/online-learning" element={<OnlineLearning />} />
           <Route path="/admin/registerstudent" element={<RegisterStudent />} exact />
           <Route path="/admin/dashboard" element={<AdminDashboard />} exact />

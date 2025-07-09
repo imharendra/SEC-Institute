@@ -126,6 +126,7 @@ export default function StudentVerification() {
                 {renderInfoRow("Course Name", student.courseName)}
                 {renderInfoRow("Date of Birth", student.dateOfBirth)}
                 {renderInfoRow("Admission Date", student.admissionDate)}
+                {renderInfoRow("Certificate Issue Date", student.certificateIssueDate)}
                 {renderInfoRow("Verified", student.isVerified ? "Yes" : "No")}
               </TableBody>
             </Table>
