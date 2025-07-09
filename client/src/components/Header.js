@@ -47,6 +47,16 @@ export default function Header() {
 
   const navigate = useNavigate();
 
+    const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   useEffect(() => {
     const user = localStorage.getItem("user");
     console.log("User:", user);
@@ -77,7 +87,8 @@ export default function Header() {
   };
 
   return (
-    <AppBar position="static" color="primary">
+    <>
+      <AppBar position="static" color="primary">
       <Box
         display="flex"
         justifyContent="center"
@@ -262,5 +273,17 @@ export default function Header() {
         </Drawer>
       )}
     </AppBar>
+    <Typography variant="body2" sx={{
+          color: theme.palette.primary.main,
+          backgroundColor: theme.palette.background.paper,
+          textAlign: 'right',
+          px: 3,
+          py: 1,
+          fontWeight: 700,
+          letterSpacing: 1,
+        }}>
+        {now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+      </Typography>
+    </>
   );
 }
