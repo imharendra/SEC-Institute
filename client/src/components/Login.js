@@ -126,22 +126,22 @@ export default function Login() {
               </Button>
             </Stack>
 
-            <Button
+            {/* <Button
               onClick={()=>navigate("/signup")}
               fullWidth
               variant="text"
               sx={{ mt: 2, }}
             >
               Create a new account
-            </Button>
+            </Button> */}
 
-            <Button
+            {/* <Button
               onClick={handleForgotPassword}
               fullWidth
               variant="text"
             >
               Forgot Password?
-            </Button>
+            </Button> */}
           </Box>
         </Box>
       </Paper>
