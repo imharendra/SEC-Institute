@@ -30,7 +30,7 @@ export default function OnlineLearning() {
         </Typography>
 
         {/* YouTube Embed */}
-        {/* <Box
+        <Box
           sx={{
             position: "relative",
             paddingBottom: "56.25%",
@@ -41,10 +41,12 @@ export default function OnlineLearning() {
             boxShadow: 3,
           }}
         >
+
+            {/* <iframe width="914" height="514" src="https://www.youtube.com/embed/CfnMMYm0_H0" title="BASIC COMPUTER CONCEPT l FILMED BY AKASK KUMAR l ACT BY DAULAT" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
             
           <iframe
             title="Online Learning Channel"
-            src="https://www.youtube.com/embed?7RtZpPBDe08"
+            src="https://www.youtube.com/embed/CfnMMYm0_H0"
             // src="https://www.youtube.com/embed?listType=user_uploads&list=yourchannelname"
             frameBorder="0"
             allowFullScreen
@@ -57,7 +59,7 @@ export default function OnlineLearning() {
               borderRadius: 8,
             }}
           />
-        </Box> */}
+        </Box>
 
         {/* Button to YouTube */}
         <Button
