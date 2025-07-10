@@ -41,6 +41,14 @@ export default function StudentVerification() {
     }
   };
 
+  const showDate= (date1) => {
+  const date = new Date(date1);
+  const day = date.getDate();
+  const month = date.toLocaleString('en-GB', { month: 'long' });
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
   return (
     <Container maxWidth="sm" sx={{ my: 6 }}>
       <ToastContainer />
@@ -124,9 +132,9 @@ export default function StudentVerification() {
                 {renderInfoRow("Father's Name", student.fatherName)}
                 {renderInfoRow("Program Name", student.programName)}
                 {renderInfoRow("Course Name", student.courseName)}
-                {renderInfoRow("Date of Birth", student.dateOfBirth)}
-                {renderInfoRow("Admission Date", student.admissionDate)}
-                {renderInfoRow("Certificate Issue Date", student.certificateIssueDate)}
+                {renderInfoRow("Date of Birth", showDate(student.dateOfBirth))}
+                {renderInfoRow("Admission Date", showDate(student.admissionDate))}
+                {renderInfoRow("Certificate Issue Date", showDate(student.certificateIssueDate))}
                 {renderInfoRow("Verified", student.isVerified ? "Yes" : "No")}
               </TableBody>
             </Table>

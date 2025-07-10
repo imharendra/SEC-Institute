@@ -26,6 +26,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ImageCompressor from "image-compressor.js";
 import courseOptions from "../../utils/courseOptions";
+import enGB from 'date-fns/locale/en-GB';
 
 export default function RegisterStudent() {
   const theme = useTheme();
@@ -196,7 +197,7 @@ export default function RegisterStudent() {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
       <Container component="main" maxWidth="sm">
         <ToastContainer />
         <Paper elevation={6} sx={{ p: 4, mt: 6, borderRadius: 3 }}>
