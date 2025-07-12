@@ -100,7 +100,8 @@ export default function Homepage() {
     </Box>
 
     {/* ABOUT SEC INSTITUTE SECTION */}
-      <Box sx={{ py: 6, backgroundColor: '#f5f5f5' }}>
+      <div id="aboutsec">
+          <Box sx={{ py: 6, backgroundColor: '#f5f5f5' }}>
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={6}>
@@ -125,6 +126,7 @@ export default function Homepage() {
           </Grid>
         </Container>
       </Box>
+      </div>
 
       {/* DEVELOPER INFO SECTION */}
       {/* <DeveloperInfo /> */}

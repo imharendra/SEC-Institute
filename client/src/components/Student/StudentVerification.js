@@ -14,6 +14,7 @@ import {
   TextField,
   Typography,
   useTheme,
+  CircularProgress
 } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +24,7 @@ export default function StudentVerification() {
   const [enrollmentNumber, setEnrollmentNumber] = useState("");
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(false);
+
 
   const handleVerify = async () => {
     setStudent(null);
@@ -40,6 +42,12 @@ export default function StudentVerification() {
       setLoading(false); // Stop loading
     }
   };
+
+  // if(loading){
+  //   return <Box sx={{display:"flex", justifyContent:"center"}}>
+  //       <CircularProgress color="success" />
+  //   </Box>
+  // }
 
   const showDate= (date1) => {
   const date = new Date(date1);
@@ -101,6 +109,13 @@ export default function StudentVerification() {
         >
           {loading ? "Verifying..." : "Verify"}
         </Button>
+
+        {loading && (
+          <Box sx={{display:"flex", justifyContent:"center", alignItems:"center" , flexDirection:"column"}}>
+            <CircularProgress color="success" /> 
+            <p>Please wait while loading...</p>
+          </Box>
+        )}
 
         {student && (
           <TableContainer

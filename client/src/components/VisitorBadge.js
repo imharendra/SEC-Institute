@@ -22,16 +22,16 @@ export default function VisitorBadge() {
   }, []);
 
   return (
-    <Box sx={{ textAlign: 'center', mt: 3, mb: 2 }}>
+    <Box>
       <Chip
         icon={<GroupIcon />}
-        label={`Visitors: ${count !== null ? count : '...'}`}
+        label={`Visitors: ${count !== null ? count : '1'}`}
         sx={{
           backgroundColor: theme.palette.secondary.main,
           color: theme.palette.getContrastText(theme.palette.secondary.main),
           fontWeight: 'bold',
-          fontSize: '1rem',
-          px: 2,
+          // fontSize: '1rem',
+          px: 0.5,
         }}
       />
     </Box>

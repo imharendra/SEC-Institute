@@ -7,11 +7,22 @@ import {
   useTheme,
   Link,
   Button,
+  CircularProgress
 } from "@mui/material";
 import VisitorBadge from "./VisitorBadge";
+import { useState } from "react";
+import DeveloperInfo from "./modals/DeveloperModal";
 
 export default function Footer() {
   const theme = useTheme();
+
+    const [open, setOpen] = useState(false);
+
+  const handleClick = (text) => {
+    if (text === 'Developer Info') {
+      setOpen(true);
+    }
+  };
 
   return (
     <Box
@@ -54,29 +65,33 @@ export default function Footer() {
             </Typography>
             {[
               { text: "Home", href: "/" },
-              { text: "About", href: "#" },
-              { text: "Courses", href: "/courses" },
-              { text: "Branches", href: "/branches" },
+              // { text: "About", href: "#" },
+              // { text: "Courses", href: "/courses" },
+              // { text: "Branches", href: "/branches" },
               { text: "Privacy Policy", href: "/privacypolicy" },
               { text: "Terms & Conditions", href: "/termsandconditions" },
+              { text: "Developer Info", href: "#" },
             ].map((link) => (
-              <Typography variant="body2" sx={{ mb: 1 }}>
-                <Link
-                  component={RouterLink}
-                  to={link.href}
-                  underline="none"
-                  sx={{
-                    color: "#EED6D3",
-                    "&:hover": {
-                      color: "#fff",
-                      textDecoration: "underline",
-                    },
-                  }}
-                >
-                  {link.text}
-                </Link>
-              </Typography>
+              <Typography key={link.text} variant="body2" sx={{ color: '#EED6D3', mb: 1 }}>
+          <Link
+            component={link.text === 'Developer Info' ? 'button' : RouterLink}
+            to={link.text !== 'Developer Info' ? link.href : undefined}
+            onClick={() => handleClick(link.text)}
+            underline="none"
+            sx={{
+              color: '#EED6D3',
+              cursor: 'pointer',
+              '&:hover': {
+                color: '#fff',
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            {link.text}
+          </Link>
+        </Typography>
             ))}
+            <DeveloperInfo open={open} onClose={() => setOpen(false)} />
           </Grid>
 
           {/* Map Column */}
@@ -114,20 +129,20 @@ export default function Footer() {
           display="flex"
           flexDirection={{ xs: "column", md: "row" }}
           justifyContent="space-between"
-          alignItems={{ xs: "flex-start", md: "center" }}
-          textAlign={{ xs: "left", md: "left" }}
+          // alignItems={{ xs: "flex-start", md: "center" }}
+          // textAlign={{ xs: "left", md: "center" }}
           gap={2}
         >
           <Typography
             variant="body2"
             sx={{ fontSize: "0.85rem", color: "#ccc" }}
           >
-            © 2025 Somnath Education & Computer Institute. All Rights Reserved.
+            © 2025 SEC Institute. All Rights Reserved.
           </Typography>
 
-          {/* <VisitorBadge /> */}
+          <VisitorBadge />
 
-          <Box textAlign="right">
+          {/* <Box textAlign="right">
             <Typography variant="body2" sx={{ color: "#ccc" }}>
               Developed by: TEEKAM SINGH
             </Typography>
@@ -145,7 +160,7 @@ export default function Footer() {
                 www.singhteekam.in
               </Link>
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Container>
     </Box>
