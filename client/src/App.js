@@ -21,13 +21,14 @@ import AdminProfile from "./components/Admin/AdminProfile";
 import OnlineLearning from "./components/Student/OnlineLearning";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsAndConditions from "./components/TermsAndConditions";
+import ContactUs from "./components/ContactUs";
 
 
 function App() {
   return (
     <BrowserRouter>
       {/* <ToastContainer /> */}
-      <Header />
+      <Header/>
 
       <main>
         <Routes>
@@ -44,11 +45,12 @@ function App() {
           <Route path="/admin/registerstudent" element={<RegisterStudent />} exact />
           <Route path="/admin/dashboard" element={<AdminDashboard />} exact />
           <Route path="/admin/profile" element={<AdminProfile />} exact />
+          <Route path="/contact" element={<ContactUs/>}/>
           {/* <Route path="/studentverify" element={<StudentVerification />} /> */}
-          
         </Routes>
       </main>
-      <Footer />
+
+      <Footer/>
     </BrowserRouter>
     // </AuthProvider>
   );

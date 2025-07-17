@@ -26,10 +26,11 @@ import logo from "../assets/logo.png";
 const navItems = [
   { label: "HOME", path: "/" },
   { label: "ABOUT US", path: "#aboutsec" },
+  { label: "Contact Us", path: "/contact" },
   { label: "STUDENT VERIFICATION", path: "/studentverify" },
   { label: "COURSES", path: "/courses" },
   { label: "ONLINE LEARNING", path: "/online-learning" },
-  { label: "OUR BRANCHES", path: "/branches" },
+  { label: "OUR BRANCHES", path: "/branches" }
   // { label: "STUDENT REGISTRATION", path: "/registerstudent" },
 ];
 
