@@ -10,6 +10,7 @@ import {
   Stack,
   Button
 } from '@mui/material';
+import showDateDDMMYYYY from '../../utils/dateConvert';
 
 export default function ViewStudentDetails({ open, onClose, student }) {
   if (!student) return null;
@@ -35,8 +36,8 @@ export default function ViewStudentDetails({ open, onClose, student }) {
           <Typography><strong>Father Name:</strong> {student.fatherName}</Typography>
           <Typography><strong>Program Name:</strong> {student.programName}</Typography>
           <Typography><strong>Course Name:</strong> {student.courseName}</Typography>
-          <Typography><strong>Date of Birth:</strong> {new Date(student.dateOfBirth).toLocaleDateString()}</Typography>
-          <Typography><strong>Admission Date:</strong> {new Date(student.admissionDate).toLocaleDateString()}</Typography>
+          <Typography><strong>Date of Birth:</strong> {showDateDDMMYYYY(student.dateOfBirth)}</Typography>
+          <Typography><strong>Admission Date:</strong> {showDateDDMMYYYY(student.admissionDate)}</Typography>
           <Typography><strong>Verified:</strong> {student.isVerified ? 'Yes' : 'No'}</Typography>
         </Stack>
 

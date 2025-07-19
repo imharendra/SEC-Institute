@@ -13,11 +13,12 @@ import {
   TextField,
   Pagination,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import axios from "axios";
 import EditStudentDetails from "./EditStudentDetails";
-import { ToastContainer } from "react-toastify";
 import ViewStudentDetails from "./ViewStudentDetails";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
@@ -29,6 +30,7 @@ export default function AdminDashboard() {
 
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleView = (student) => {
     setSelectedStudent(student);
@@ -45,13 +47,17 @@ export default function AdminDashboard() {
 
   const fetchStudents = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(
         `/api/admin/students?page=${page}&search=${search}`
       );
       setStudents(res.data.students);
       setTotalPages(res.data.totalPages);
+      setLoading(false);
     } catch (err) {
       console.error(err);
+      setLoading(false);
+      toast.error("Failed to fetch students");
     }
   };
 
@@ -69,6 +75,13 @@ export default function AdminDashboard() {
     fetchStudents();
     handleCloseEditModal();
   };
+
+  if (loading) {
+    return <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+      <CircularProgress size={60} sx={{ color: 'green' }} />
+    </Box>;
+  }
+
 
   return (
     <Container sx={{ mt: 4 }}>

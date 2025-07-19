@@ -25,6 +25,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import courseOptions from "../../utils/courseOptions";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import enGB from 'date-fns/locale/en-GB';
 
 export default function EditStudentDetails({
   open,
@@ -190,6 +191,7 @@ export default function EditStudentDetails({
   };
 
   return (
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <ToastContainer />
       <DialogTitle>Edit Student Details</DialogTitle>
@@ -282,7 +284,6 @@ export default function EditStudentDetails({
               ))}
           </Select>
         </FormControl>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Stack spacing={2} direction="column" sx={{ mt: 2 }}>
             <DatePicker
               label="Date of Birth"
@@ -318,7 +319,6 @@ export default function EditStudentDetails({
               )}
             />
           </Stack>
-        </LocalizationProvider>
         <FormControlLabel
           control={
             <Checkbox
@@ -365,5 +365,6 @@ export default function EditStudentDetails({
         </Button>
       </DialogActions>
     </Dialog>
+    </LocalizationProvider>
   );
 }

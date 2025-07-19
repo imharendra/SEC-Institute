@@ -25,7 +25,7 @@ const getNextEnrollmentNumber = async () => {
 
 exports.fetchAllStudents = async (req, res) => {
   const { page = 1, search = "" } = req.query;
-  const pageSize = 5;
+  const pageSize = 10;
 
   try {
    const query = {
