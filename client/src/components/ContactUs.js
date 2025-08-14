@@ -8,6 +8,8 @@ import {
   Grid,
   Paper
 } from '@mui/material';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -24,11 +26,22 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
-    alert('Message sent!');
+    try {
+      const resp= await axios.post('/api/student/contactus', formData);
+      if (resp.status === 200) {
+        toast.success('Your message has been sent successfully!');
+      }
+      else {
+        toast.error('Failed to send your message. Please try again later.');
+      }
+
+    } catch (error) { 
+      console.error('Error submitting form:', error);
+      toast.error('There was an error submitting your message. Please try again later.');
+      return;
+    }
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
 

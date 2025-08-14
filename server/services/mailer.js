@@ -75,13 +75,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = (receiver, subject, html, attachments=[]) => {
+const sendEmail = (receiver, subject, html, attachments = []) => {
   const mailOptions = {
     from: process.env.EMAIL,
     to: receiver,
     subject: subject,
     html: emailTemplate(html),
-    attachments: attachments
+    attachments: attachments,
     // html: html,
   };
 
