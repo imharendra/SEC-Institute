@@ -22,6 +22,7 @@ import OnlineLearning from "./components/Student/OnlineLearning";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsAndConditions from "./components/TermsAndConditions";
 import ContactUs from "./components/ContactUs";
+import CertificatePage from "./components/Student/Certificates/CertificatePage";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} exact />
           <Route path="/admin/profile" element={<AdminProfile />} exact />
           <Route path="/contact" element={<ContactUs/>}/>
+          {/* <Route path="/certificate" element={<CertificatePage/>}/> */}
           {/* <Route path="/studentverify" element={<StudentVerification />} /> */}
         </Routes>
       </main>
