@@ -23,7 +23,16 @@ const courseOptions = {
      "HTML",
      "JavaScript",
      "CSS",
-     "Java"
+     "Java",
+     "Web Designing",
+     "Python",
+     "C/C++",
+     "English Shorthand",
+     "Hindi Shorthand",
+     "Microsoft Office",
+     "Artificial Intelligence (AI)",
+     "English Steno",
+     "Hindi Steno"
     ],
 };
 

@@ -7,13 +7,13 @@ export default function CertificatePage() {
   const [student, setStudent] = useState(null);
 
   useEffect(() => {
-    axios.get(`/api/student/profile?enrollmentNumber=${"SECI0045"}`).then((res) => {
+    axios.get(`/api/student/profile?enrollmentNumber=${"SECI1814"}`).then((res) => {
       setStudent(res.data);
     });
   }, []);
 
   if (!student) return <p>Loading...</p>;
 
-  // return <Certificate student={student} />;
-  return <Marksheet student={student} />;
+  return <Certificate student={student} />;
+  // return <Marksheet student={student} />;
 }

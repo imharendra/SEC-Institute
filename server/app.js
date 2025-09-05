@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const admin= require("./routes/admin");
 const student = require("./routes/student");
-require("dotenv").config({ path: ".env.local" });
-// require("dotenv").config({ path: ".env" });  // For production
+// require("dotenv").config({ path: ".env.local" });
+require("dotenv").config({ path: ".env" });  // For production
 
 const PORT = process.env.PORT || 5000; // For development
 // const PORT = 8183;  // For production

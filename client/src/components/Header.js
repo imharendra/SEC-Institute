@@ -31,7 +31,7 @@ const navItems = [
   { label: "COURSES", path: "/courses" },
   { label: "ONLINE LEARNING", path: "/online-learning" },
   { label: "OUR BRANCHES", path: "/branches" },
-  { label: "CERTIFICATE", path: "/certificate" }
+  // { label: "CERTIFICATE", path: "/certificate" }
   // { label: "STUDENT REGISTRATION", path: "/registerstudent" },
 ];
 
@@ -229,6 +229,14 @@ export default function Header() {
                       }}
                     >
                       Admin Dashboard
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleMenuClose();
+                        navigate("/admin/certificate");
+                      }}
+                    >
+                      Certificate
                     </MenuItem>
                     {/* <MenuItem
                     onClick={() => {
